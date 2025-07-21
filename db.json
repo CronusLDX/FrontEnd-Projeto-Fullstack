@@ -1,0 +1,24 @@
+{
+  "clients": [
+    {
+      "seqId": 1,
+      "name": "João Pedro Barbosa",
+      "cpf": "123.456.789-00",
+      "dateOfBirth": "01/01/2000",
+      "email": "2lG7I@example.com",
+      "phone": "(11) 99999-9999",
+      "status": "ativo",
+      "fgtsBalance": 1000.0,
+      "balanceWithdraw": 0.0,
+      "dateOfRegistration": "01/01/2023",
+      "observation": "Observação",
+      "modality": "Saque Aniversário",
+      "autorization": "Sim",
+      "withdrawAtendant": "Maria Joaquina",
+      "withdrawDate": "01/01/2023",
+      "description": "Descrição",
+      "createdAt": "01/01/2023",
+      "updatedAt": "01/01/2023"
+    }
+  ]
+}
