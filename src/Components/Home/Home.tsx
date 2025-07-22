@@ -94,11 +94,11 @@ const Home: React.FC = () => {
             </thead>
             <tbody>
               {clientsAddedRecently.map(client => (
-                <tr key={client.seqId}>
+                <tr key={client.id}>
                   <td>{client.name}</td>
                   <td>
                     <Link
-                      to={`/clients/${client.seqId}`}
+                      to={`/clients/${client.id}/show`}
                       className="button is-small"
                     >
                       Ver
@@ -119,11 +119,11 @@ const Home: React.FC = () => {
             </thead>
             <tbody>
               {clientsAvailable.map(client => (
-                <tr key={client.seqId}>
+                <tr key={client.id}>
                   <td>{client.name}</td>
                   <td>
                     <Link
-                      to={`/clients/${client.seqId}`}
+                      to={`/clients/${client.id}/show`}
                       className="button is-small"
                     >
                       Ver

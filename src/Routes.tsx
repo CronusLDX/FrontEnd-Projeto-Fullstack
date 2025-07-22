@@ -5,7 +5,7 @@ import Home from './Components/Home/Home';
 import ListClients from './Components/ListClients/ListClients';
 import CreateClients from './Components/CreateClient/CreateClient';
 import ShowClients from './Components/ShowClients/ShowClients';
-import UpdateClients from './Components/UpddateClients/UpdateClients';
+import UpdateClients from './Components/UpdateClients/UpdateClients';
 
 const router = createBrowserRouter([
   {
@@ -19,8 +19,8 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <ListClients /> },
           { path: 'new', element: <CreateClients /> },
-          { path: ':seqId', element: <ShowClients /> },
-          { path: ':seqId/update', element: <UpdateClients /> },
+          { path: ':id/show', element: <ShowClients /> },
+          { path: ':id', element: <UpdateClients /> },
         ],
       },
     ],

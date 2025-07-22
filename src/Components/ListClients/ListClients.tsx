@@ -21,8 +21,8 @@ const ListClients: React.FC = () => {
         </thead>
         <tbody>
           {clients.map((client: ClientProps) => (
-            <tr key={client.seqId}>
-              <td>{client.seqId}</td>
+            <tr key={client.id}>
+              <td>{client.id}</td>
               <td>{client.name}</td>
               <td>
                 {client.balanceWithdraw
@@ -33,13 +33,15 @@ const ListClients: React.FC = () => {
               </td>
               <td>{client.status}</td>
               <td>
-                <StyledLnkVer to={`/clients/${client.seqId}`}>Ver</StyledLnkVer>
-                <StyledLinkAtualizar to={`/clients/${client.seqId}/update`}>
+                <StyledLnkVer to={`/clients/${client.id}/show`}>
+                  Ver
+                </StyledLnkVer>
+                <StyledLinkAtualizar to={`/clients/${client.id}`}>
                   Atualizar
                 </StyledLinkAtualizar>
                 <button
                   id="delete-button"
-                  onClick={() => deleteClient(client.seqId)}
+                  onClick={() => deleteClient(client.id)}
                 >
                   Excluir
                 </button>

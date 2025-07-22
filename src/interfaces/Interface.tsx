@@ -1,5 +1,5 @@
 export interface ClientProps {
-  seqId: string;
+  id: string;
   name: string;
   cpf: string;
   dateOfBirth: string;
@@ -30,4 +30,5 @@ export interface ClientContextProps {
       | React.ChangeEvent<HTMLTextAreaElement>
   ) => void;
   updateClient: (item: ClientProps) => void;
+  formRef: React.RefObject<HTMLFormElement | null>;
 }

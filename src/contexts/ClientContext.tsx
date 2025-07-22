@@ -2,6 +2,7 @@ import { createContext, useContext } from 'react';
 import type { ClientContextProps, ClientProps } from '../interfaces/Interface';
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import api from '../api/api';
 
 export const ClientContext = createContext<ClientContextProps | null>(null);
 
@@ -10,6 +11,9 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   // State de Clientes
   const [clients, setClients] = React.useState<ClientProps[]>([]);
+
+  // ref de atualizaçõa do form
+  const formRef = React.useRef<HTMLFormElement>(null);
   // Função de Pop-Up de alerta
   const showAlert = (message: string) => alert(message);
 
@@ -26,8 +30,25 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
     return true;
   };
 
+  // função de requisição tipo GET para pegar todos os usuarios
+  const fetchAllClients = async () => {
+    try {
+      const response = await api.get('/clients');
+      setClients(response.data);
+    } catch (error) {
+      showAlert('Erro ao buscar clientes.');
+      console.error(error);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchAllClients();
+  }, []);
+
   // Função de envio do formulário
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault(); // previnir o comportamento padrão do formulário
     const formData = new FormData(event.currentTarget); // obter os dados do formulário
 
@@ -47,19 +68,19 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
 
     // objeto de envio baseado em ClientProps
     const newClient: ClientProps = {
-      seqId: uuidv4(),
+      id: uuidv4(),
       name: formData.get('name') as string,
       cpf: formData.get('cpf') as string,
       dateOfBirth: formData.get('dateOfBirth') as string,
       email: formData.get('email') as string,
       phone: formData.get('phone') as string,
-      status: status.toLowerCase(),
+      status: status.toLowerCase() || '',
       fgtsBalance: rawFgtsBalance,
       balanceWithdraw: rawBalanceWithdraw,
       dateOfRegistration: formData.get('dateOfRegistration') as string,
       modality: formData.get('modality') as string,
       observation: formData.get('observation') as string,
-      autorization: autorization.toLowerCase(),
+      autorization: autorization.toLowerCase() || '',
       withdrawAtendant: formData.get('withdrawAtendant') as string,
       withdrawDate: formData.get('withdrawDate') as string,
       description: formData.get('description') as string,
@@ -67,52 +88,80 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
       updatedAt: new Date().toISOString(),
     };
 
-    // atualiza o estado de Clientes
-    setClients((prevClients: ClientProps[]) => [...prevClients, newClient]);
-
-    // exibe o conteúdo do State clients
-    setTimeout(() => console.log(clients), 1500);
-    // exibe mensagem de sucesso
-    showAlert('Cliente cadastrado com sucesso!');
-
-    // limpa o formulário
-    event.currentTarget.reset();
+    try {
+      // envio da requisição TIPO POST
+      const response = await api.post('/clients', newClient);
+      // atualiza o estado de Clientes
+      setClients((prevClients: ClientProps[]) => [
+        ...prevClients,
+        response.data,
+      ]);
+      // exibe mensagem de sucesso
+      showAlert('Cliente cadastrado com sucesso!');
+    } catch (error) {
+      console.error(error);
+      showAlert('Erro ao cadastrar cliente.');
+    } finally {
+      formRef.current?.reset();
+    }
   };
 
   // Função de atualização do formulário
   const handleChange = (
-    seqId: string | undefined,
+    id: string | undefined,
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
-    if (!seqId) return console.error('seqId is undefined');
+    if (!id) return console.error('id is undefined');
     const { name, value } = e.target;
 
     setClients(prevClients =>
       prevClients.map(client =>
-        client.seqId === seqId ? { ...client, [name]: value } : client
+        client.id === id ? { ...client, [name]: value } : client
       )
     );
   };
 
   //função de atualizar cliente
-  const updateClient = (item: ClientProps) => {
-    if (!item.seqId) return console.error('seqId is undefined');
-    setClients((prevClients: ClientProps[]) =>
-      prevClients.map((client: ClientProps) =>
-        client.seqId === item.seqId
-          ? {
-              ...client,
-              ...item,
-              updatedAt: new Date().toLocaleString(),
-            }
-          : client
-      )
-    );
-    showAlert('Cliente atualizado com sucesso!');
+  const updateClient = async (item: ClientProps): Promise<void> => {
+    if (!item.id) return console.error('id is undefined');
+
+    try {
+      const response = await api.put(`/clients/${item.id}`, item);
+      setClients((prevClients: ClientProps[]) =>
+        prevClients.map((client: ClientProps) =>
+          client.id === item.id
+            ? {
+                ...client,
+                ...response.data,
+                updatedAt: new Date().toLocaleString(),
+              }
+            : client
+        )
+      );
+      showAlert('Cliente atualizado com sucesso!');
+    } catch (error: any) {
+      if (error.response) {
+        console.error('Response error:', error.response.data);
+      } else if (error.request) {
+        console.error('Request error:', error.request);
+      } else {
+        console.error('Error', error.message);
+      }
+      showAlert('Erro ao atualizar cliente.');
+    }
   };
   // função de deletar cliente
-  const deleteClient = (seqId: string): void => {
-    setClients(clients.filter(client => client.seqId !== seqId));
+  const deleteClient = async (id: string): Promise<void> => {
+    try {
+      await api.delete(`/clients/${id}`);
+      setClients((prevClients: ClientProps[]) =>
+        prevClients.filter((client: ClientProps) => client.id !== id)
+      );
+      showAlert('Cliente deletado com sucesso!');
+    } catch (error) {
+      console.error(error);
+      showAlert('Erro ao deletar cliente.');
+    }
   };
 
   return (
@@ -123,6 +172,7 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
         deleteClient,
         handleChange,
         updateClient,
+        formRef,
       }}
     >
       {children}

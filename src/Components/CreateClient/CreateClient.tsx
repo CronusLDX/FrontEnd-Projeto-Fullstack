@@ -3,10 +3,10 @@ import { Main } from './styled';
 import { useClient } from '../../contexts/ClientContext';
 
 const CreateClients: React.FC = () => {
-  const { handleSubmit } = useClient();
+  const { handleSubmit, formRef } = useClient();
   return (
     <Main>
-      <form onSubmit={handleSubmit}>
+      <form ref={formRef} onSubmit={handleSubmit}>
         <section>
           <div>
             <label htmlFor="name">&nbsp;Nome:</label>

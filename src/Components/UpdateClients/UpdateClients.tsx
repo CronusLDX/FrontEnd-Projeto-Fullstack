@@ -5,11 +5,15 @@ import { useClient } from '../../contexts/ClientContext';
 import type { ClientProps } from '../../interfaces/Interface';
 
 const UpdateClients: React.FC = () => {
-  const { seqId } = useParams();
-  const { clients, updateClient, handleChange } = useClient();
+  const { id } = useParams();
+  const { clients, updateClient } = useClient();
+
+  if (!id) {
+    return <h1>ID inválido</h1>;
+  }
 
   const foundItem: ClientProps | undefined = clients.find(
-    client => client.seqId === seqId
+    client => client.id === id
   );
 
   const [item, setItem] = React.useState<ClientProps | undefined>(foundItem);
@@ -30,7 +34,7 @@ const UpdateClients: React.FC = () => {
       <form
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
-          updateClient(item);
+          if (item) updateClient(item);
         }}
       >
         <section>
@@ -42,7 +46,7 @@ const UpdateClients: React.FC = () => {
               name="name"
               placeholder="Ex: João Pedro"
               value={item.name}
-              onChange={e => handleChange(seqId, e)}
+              onChange={e => setItem({ ...item, name: e.target.value })}
               required
             />
           </div>
@@ -54,7 +58,7 @@ const UpdateClients: React.FC = () => {
               name="cpf"
               placeholder="Ex: 123.456.789-00"
               value={item.cpf}
-              onChange={e => handleChange(seqId, e)}
+              onChange={e => setItem({ ...item, cpf: e.target.value })}
               required
             />
           </div>
@@ -67,7 +71,7 @@ const UpdateClients: React.FC = () => {
               id="dateOfBirth"
               name="dateOfBirth"
               value={item.dateOfBirth}
-              onChange={e => handleChange(seqId, e)}
+              onChange={e => setItem({ ...item, dateOfBirth: e.target.value })}
               required
             />
           </div>
@@ -79,7 +83,7 @@ const UpdateClients: React.FC = () => {
               name="email"
               placeholder="Ex: exemplo@email.com"
               value={item.email}
-              onChange={e => handleChange(seqId, e)}
+              onChange={e => setItem({ ...item, email: e.target.value })}
             />
           </div>
         </section>
@@ -92,7 +96,7 @@ const UpdateClients: React.FC = () => {
               name="phone"
               placeholder="Ex: (11) 99999-9999"
               value={item.phone}
-              onChange={e => handleChange(seqId, e)}
+              onChange={e => setItem({ ...item, phone: e.target.value })}
               required
             />
           </div>
@@ -104,7 +108,7 @@ const UpdateClients: React.FC = () => {
               name="status"
               placeholder="Ex: ativo"
               value={item.status}
-              onChange={e => handleChange(seqId, e)}
+              onChange={e => setItem({ ...item, status: e.target.value })}
               required
             />
           </div>
@@ -118,7 +122,9 @@ const UpdateClients: React.FC = () => {
               name="fgtsBalance"
               placeholder="Ex: 1000.00"
               value={item.fgtsBalance}
-              onChange={e => handleChange(seqId, e)}
+              onChange={e =>
+                setItem({ ...item, fgtsBalance: parseFloat(e.target.value) })
+              }
               required
             />
           </div>
@@ -130,7 +136,12 @@ const UpdateClients: React.FC = () => {
               name="balanceWithdraw"
               placeholder="Ex: 500.00"
               value={item.balanceWithdraw}
-              onChange={e => handleChange(seqId, e)}
+              onChange={e =>
+                setItem({
+                  ...item,
+                  balanceWithdraw: parseFloat(e.target.value),
+                })
+              }
             />
           </div>
         </section>
@@ -142,7 +153,9 @@ const UpdateClients: React.FC = () => {
               id="dateOfRegistration"
               name="dateOfRegistration"
               value={item.dateOfRegistration}
-              onChange={e => handleChange(seqId, e)}
+              onChange={e =>
+                setItem({ ...item, dateOfRegistration: e.target.value })
+              }
               required
             />
           </div>
@@ -154,7 +167,7 @@ const UpdateClients: React.FC = () => {
               name="modality"
               placeholder="Ex: Saque Aniversário"
               value={item.modality}
-              onChange={e => handleChange(seqId, e)}
+              onChange={e => setItem({ ...item, modality: e.target.value })}
               required
             />
           </div>
@@ -168,7 +181,7 @@ const UpdateClients: React.FC = () => {
               name="autorization"
               placeholder="Ex: Sim"
               value={item.autorization}
-              onChange={e => handleChange(seqId, e)}
+              onChange={e => setItem({ ...item, autorization: e.target.value })}
               required
             />
           </div>
@@ -180,7 +193,9 @@ const UpdateClients: React.FC = () => {
               name="withdrawAtendant"
               placeholder="Ex: Maria Joaquina"
               value={item.withdrawAtendant}
-              onChange={e => handleChange(seqId, e)}
+              onChange={e =>
+                setItem({ ...item, withdrawAtendant: e.target.value })
+              }
             />
           </div>
         </section>
@@ -192,7 +207,7 @@ const UpdateClients: React.FC = () => {
               id="withdrawDate"
               name="withdrawDate"
               value={item.withdrawDate}
-              onChange={e => handleChange(seqId, e)}
+              onChange={e => setItem({ ...item, withdrawDate: e.target.value })}
             />
           </div>
           <div>
@@ -203,7 +218,7 @@ const UpdateClients: React.FC = () => {
               name="observation"
               placeholder="Ex: Observação"
               value={item.observation}
-              onChange={e => handleChange(seqId, e)}
+              onChange={e => setItem({ ...item, observation: e.target.value })}
             />
           </div>
         </section>
@@ -214,7 +229,7 @@ const UpdateClients: React.FC = () => {
             name="description"
             placeholder="Ex: Descrição"
             value={item.description}
-            onChange={e => handleChange(seqId, e)}
+            onChange={e => setItem({ ...item, description: e.target.value })}
           ></textarea>
         </div>
         <button id="save" type="submit">
@@ -223,7 +238,7 @@ const UpdateClients: React.FC = () => {
       </form>
       <footer>
         Criado em &nbsp; <span>{item.createdAt}</span>
-        &nbsp; &nbsp; ID: &nbsp; <span>{item.seqId}</span>
+        &nbsp; &nbsp; ID: &nbsp; <span>{item.id}</span>
         &nbsp; &nbsp; Atualizado em: &nbsp;
         <span>{item.updatedAt}</span>
       </footer>
