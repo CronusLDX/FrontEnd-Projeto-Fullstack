@@ -1,40 +1,9 @@
 import React from 'react';
 import { Main } from './styled';
-import type { ClientProps } from '../../interfaces/Interface';
-import { formattedCurrency } from '../../utility/FormatCurrency';
+import { useClient } from '../../contexts/ClientContext';
 
 const CreateClients: React.FC = () => {
-  const [clients, setClients] = React.useState<ClientProps[]>([]);
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const newClient = {
-      name: formData.get('name') as string,
-      cpf: formData.get('cpf') as string,
-      dateOfBirth: formData.get('dateOfBirth') as string,
-      email: formData.get('email') as string,
-      phone: formData.get('phone') as string,
-      status: formData.get('status') as string,
-      fgtsBalance: formattedCurrency(
-        parseFloat(formData.get('fgtsBalance') as string)
-      ),
-      balanceWithdraw: formattedCurrency(
-        parseFloat(formData.get('balanceWithdraw') as string)
-      ),
-      dateOfRegistration: formData.get('dateOfRegistration') as string,
-      modality: formData.get('modality') as string,
-      observation: formData.get('observation') as string,
-      autorization: formData.get('autorization') as string,
-      withdrawAtendant: formData.get('withdrawAtendant') as string,
-      withdrawDate: formData.get('withdrawDate') as string,
-      createdAt: Date.now().toLocaleString(),
-      updatedAt: Date.now().toLocaleString(),
-    };
-    setClients((clients: ClientProps[]) => [...clients, newClient]);
-    console.log(newClient);
-    event.currentTarget.reset();
-  };
+  const { handleSubmit } = useClient();
   return (
     <Main>
       <form onSubmit={handleSubmit}>
@@ -46,6 +15,7 @@ const CreateClients: React.FC = () => {
               id="name"
               name="name"
               placeholder="Ex: João Pedro"
+              required
             />
           </div>
           <div>
@@ -55,26 +25,22 @@ const CreateClients: React.FC = () => {
               id="cpf"
               name="cpf"
               placeholder="Ex: 123.456.789-00"
+              required
             />
           </div>
         </section>
         <section>
           <div>
             <label htmlFor="dateOfBirth">&nbsp;Data de Nascimento:</label>
-            <input
-              type="text"
-              id="dateOfBirth"
-              name="dateOfBirth"
-              placeholder="Ex: 01/01/2000"
-            />
+            <input type="date" id="dateOfBirth" name="dateOfBirth" required />
           </div>
           <div>
             <label htmlFor="email">&nbsp;Email:</label>
             <input
               type="email"
               id="email"
-              placeholder="Ex: 2lG7I@example.com"
               name="email"
+              placeholder="Ex: exemplo@email.com"
             />
           </div>
         </section>
@@ -84,8 +50,9 @@ const CreateClients: React.FC = () => {
             <input
               type="text"
               id="phone"
-              placeholder="Ex: (11) 99999-9999"
               name="phone"
+              placeholder="Ex: (11) 99999-9999"
+              required
             />
           </div>
           <div>
@@ -93,8 +60,9 @@ const CreateClients: React.FC = () => {
             <input
               type="text"
               id="status"
-              placeholder="Ex: ativo"
               name="status"
+              placeholder="Ex: ativo"
+              required
             />
           </div>
         </section>
@@ -104,8 +72,9 @@ const CreateClients: React.FC = () => {
             <input
               type="text"
               id="fgtsBalance"
-              placeholder="Ex: 1000.0"
               name="fgtsBalance"
+              placeholder="Ex: 1000.00"
+              required
             />
           </div>
           <div>
@@ -113,8 +82,8 @@ const CreateClients: React.FC = () => {
             <input
               type="text"
               id="balanceWithdraw"
-              placeholder="Ex: 0.0"
               name="balanceWithdraw"
+              placeholder="Ex: 500.00"
             />
           </div>
         </section>
@@ -122,19 +91,20 @@ const CreateClients: React.FC = () => {
           <div>
             <label htmlFor="dateOfRegistration">&nbsp;Data de Registro:</label>
             <input
-              type="text"
+              type="date"
               id="dateOfRegistration"
-              placeholder="Ex: 01/01/2023"
               name="dateOfRegistration"
+              required
             />
           </div>
           <div>
             <label htmlFor="modality">&nbsp;Modalidade:</label>
             <input
               type="text"
-              id="modalidade"
-              placeholder="Ex: Saque Aniversário"
+              id="modality"
               name="modality"
+              placeholder="Ex: Saque Aniversário"
+              required
             />
           </div>
         </section>
@@ -144,8 +114,9 @@ const CreateClients: React.FC = () => {
             <input
               type="text"
               id="autorization"
-              placeholder="Ex: Sim"
               name="autorization"
+              placeholder="Ex: Sim"
+              required
             />
           </div>
           <div>
@@ -153,27 +124,22 @@ const CreateClients: React.FC = () => {
             <input
               type="text"
               id="withdrawAtendant"
-              placeholder="Ex: Maria Joaquina"
               name="withdrawAtendant"
+              placeholder="Ex: Maria Joaquina"
             />
           </div>
         </section>
         <section>
           <div>
             <label htmlFor="withdrawDate">&nbsp;Data do Saque:</label>
-            <input
-              type="text"
-              id="withdrawDate"
-              placeholder="Ex: 01/01/2023"
-              name="withdrawDate"
-            />
+            <input type="date" id="withdrawDate" name="withdrawDate" />
           </div>
           <div>
             <label htmlFor="observation">&nbsp;Observação:</label>
             <input
               type="text"
-              name="observation"
               id="observation"
+              name="observation"
               placeholder="Ex: Observação"
             />
           </div>
@@ -181,9 +147,9 @@ const CreateClients: React.FC = () => {
         <div>
           <label htmlFor="description">&nbsp;Descrição:</label>
           <textarea
-            placeholder="Ex: Descrição"
-            name="description"
             id="description"
+            name="description"
+            placeholder="Ex: Descrição"
           ></textarea>
         </div>
         <button id="save" type="submit">
