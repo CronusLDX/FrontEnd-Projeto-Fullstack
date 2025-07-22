@@ -43,6 +43,7 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!validateBalances(rawFgtsBalance, rawBalanceWithdraw)) return;
 
     const status = formData.get('status') as string;
+    const autorization = formData.get('autorization') as string;
 
     // objeto de envio baseado em ClientProps
     const newClient: ClientProps = {
@@ -58,7 +59,7 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
       dateOfRegistration: formData.get('dateOfRegistration') as string,
       modality: formData.get('modality') as string,
       observation: formData.get('observation') as string,
-      autorization: formData.get('autorization') as string,
+      autorization: autorization.toLowerCase(),
       withdrawAtendant: formData.get('withdrawAtendant') as string,
       withdrawDate: formData.get('withdrawDate') as string,
       description: formData.get('description') as string,

@@ -24,7 +24,13 @@ const ListClients: React.FC = () => {
             <tr key={client.seqId}>
               <td>{client.seqId}</td>
               <td>{client.name}</td>
-              <td>{formattedCurrency(client.fgtsBalance)}</td>
+              <td>
+                {client.balanceWithdraw
+                  ? formattedCurrency(
+                      client.fgtsBalance - client.balanceWithdraw
+                    )
+                  : formattedCurrency(client.fgtsBalance)}
+              </td>
               <td>{client.status}</td>
               <td>
                 <StyledLnkVer to={`/clients/${client.seqId}`}>Ver</StyledLnkVer>

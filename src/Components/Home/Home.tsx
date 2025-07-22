@@ -45,12 +45,20 @@ const Home: React.FC = () => {
       );
 
       if (diffDays > 30) {
-        return client.status === 'ativo' && client.fgtsBalance > 0;
+        return (
+          client.status === 'ativo' &&
+          client.fgtsBalance > 0 &&
+          client.autorization === 'sim'
+        );
       } else {
         return false;
       }
     } else {
-      return client.status === 'ativo' && client.fgtsBalance > 0;
+      return (
+        client.status === 'ativo' &&
+        client.fgtsBalance > 0 &&
+        client.autorization === 'sim'
+      );
     }
   });
 
