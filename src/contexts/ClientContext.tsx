@@ -10,7 +10,6 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   // State de Clientes
   const [clients, setClients] = React.useState<ClientProps[]>([]);
-
   // Função de Pop-Up de alerta
   const showAlert = (message: string) => alert(message);
 
@@ -43,6 +42,8 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
     // verificação de saldos
     if (!validateBalances(rawFgtsBalance, rawBalanceWithdraw)) return;
 
+    const status = formData.get('status') as string;
+
     // objeto de envio baseado em ClientProps
     const newClient: ClientProps = {
       seqId: uuidv4(),
@@ -51,7 +52,7 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
       dateOfBirth: formData.get('dateOfBirth') as string,
       email: formData.get('email') as string,
       phone: formData.get('phone') as string,
-      status: formData.get('status') as string,
+      status: status.toLowerCase(),
       fgtsBalance: rawFgtsBalance,
       balanceWithdraw: rawBalanceWithdraw,
       dateOfRegistration: formData.get('dateOfRegistration') as string,
@@ -61,8 +62,8 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
       withdrawAtendant: formData.get('withdrawAtendant') as string,
       withdrawDate: formData.get('withdrawDate') as string,
       description: formData.get('description') as string,
-      createdAt: new Date().toLocaleString(),
-      updatedAt: new Date().toLocaleString(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
 
     // atualiza o estado de Clientes
@@ -107,7 +108,6 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
       )
     );
     showAlert('Cliente atualizado com sucesso!');
-    console.log(clients);
   };
   // função de deletar cliente
   const deleteClient = (seqId: string): void => {
