@@ -41,7 +41,7 @@ const ListClients: React.FC = () => {
                 </StyledLinkAtualizar>
                 <button
                   id="delete-button"
-                  onClick={() => deleteClient(client.id)}
+                  onClick={() => (client.id ? deleteClient(client.id) : '')}
                 >
                   Excluir
                 </button>

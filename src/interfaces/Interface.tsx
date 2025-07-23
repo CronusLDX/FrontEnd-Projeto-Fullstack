@@ -1,5 +1,5 @@
 export interface ClientProps {
-  id: string;
+  id?: string;
   name: string;
   cpf: string;
   dateOfBirth: string;
@@ -15,16 +15,14 @@ export interface ClientProps {
   withdrawAtendant?: string;
   withdrawDate?: string;
   description?: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface ClientContextProps {
   clients: ClientProps[];
   handleSubmit: (ev: React.FormEvent<HTMLFormElement>) => void;
-  deleteClient: (seqId: string) => void;
+  deleteClient: (id: string) => void;
   handleChange: (
-    seqId: string | undefined,
+    id: string | undefined,
     e:
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLTextAreaElement>

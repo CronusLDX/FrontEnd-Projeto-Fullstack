@@ -1,3 +1,44 @@
 {
-  "clients": []
+  "clients": [
+    {
+      "id": "2bb70fcf-c095-4dc4-80d0-5017c63b16b1",
+      "name": "JOAO PEDRO BARBOSA DUARTE FERREIRA",
+      "cpf": "125.698.593.78",
+      "dateOfBirth": "2004-07-16",
+      "email": "joaopedrobdfworks@gmail.com",
+      "phone": "31997661152",
+      "status": "ativo",
+      "fgtsBalance": 12456.9,
+      "balanceWithdraw": 1246.9,
+      "dateOfRegistration": "2025-06-04",
+      "modality": "Saque Aniversário",
+      "observation": "Prefere atendimento pelo whatsapp",
+      "autorization": "sim",
+      "withdrawAtendant": "Merry",
+      "withdrawDate": "2025-06-11",
+      "description": "dddaaassadsasasasaassasasasass",
+      "createdAt": "2025-07-22T18:44:33.612Z",
+      "updatedAt": "2025-07-22T18:44:33.612Z"
+    },
+    {
+      "id": "2e41e000-8a6a-4176-b568-3e1ca4af8854",
+      "name": "JOAO PEDRO BARBOSA DUARTE FERREIRA",
+      "cpf": "125.698.594.75",
+      "dateOfBirth": "2005-06-15",
+      "email": "joaopedrobdfworks@gmail.com",
+      "phone": "31997661152",
+      "status": "ativo",
+      "fgtsBalance": 11356.9,
+      "balanceWithdraw": 5000,
+      "dateOfRegistration": "2025-06-12",
+      "modality": "Saque Aniversário",
+      "observation": "Prefere atendimento pelo whatsapp",
+      "autorization": "sim",
+      "withdrawAtendant": "Jonas",
+      "withdrawDate": "2025-07-21",
+      "description": "sadddaadasdasasdasdasdasdasdadsasdsadsadsadsadsad",
+      "createdAt": "2025-07-22T18:46:07.422Z",
+      "updatedAt": "2025-07-22T18:46:07.422Z"
+    }
+  ]
 }

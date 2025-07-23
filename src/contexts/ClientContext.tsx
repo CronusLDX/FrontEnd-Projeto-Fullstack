@@ -1,8 +1,13 @@
 import { createContext, useContext } from 'react';
 import type { ClientContextProps, ClientProps } from '../interfaces/Interface';
 import React from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import api from '../api/api';
+import {
+  deleteClientById,
+  getAllClients,
+  postClient,
+  putClient,
+} from '../api/api';
+import { convertId } from '../utility/FormatCurrency';
 
 export const ClientContext = createContext<ClientContextProps | null>(null);
 
@@ -33,8 +38,9 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
   // função de requisição tipo GET para pegar todos os usuarios
   const fetchAllClients = async () => {
     try {
-      const response = await api.get('/clients');
-      setClients(response.data);
+      const response = await getAllClients();
+      const clientWithId = convertId(response.data);
+      setClients(clientWithId);
     } catch (error) {
       showAlert('Erro ao buscar clientes.');
       console.error(error);
@@ -68,7 +74,6 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
 
     // objeto de envio baseado em ClientProps
     const newClient: ClientProps = {
-      id: uuidv4(),
       name: formData.get('name') as string,
       cpf: formData.get('cpf') as string,
       dateOfBirth: formData.get('dateOfBirth') as string,
@@ -84,17 +89,16 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
       withdrawAtendant: formData.get('withdrawAtendant') as string,
       withdrawDate: formData.get('withdrawDate') as string,
       description: formData.get('description') as string,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
     };
 
     try {
       // envio da requisição TIPO POST
-      const response = await api.post('/clients', newClient);
+      const response = await postClient(newClient);
       // atualiza o estado de Clientes
+      const newClientWithId = convertId(response.data);
       setClients((prevClients: ClientProps[]) => [
         ...prevClients,
-        response.data,
+        newClientWithId,
       ]);
       // exibe mensagem de sucesso
       showAlert('Cliente cadastrado com sucesso!');
@@ -126,13 +130,14 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!item.id) return console.error('id is undefined');
 
     try {
-      const response = await api.put(`/clients/${item.id}`, item);
+      const response = await putClient(item.id, item);
+      const updatedClientWithId = convertId(response.data);
       setClients((prevClients: ClientProps[]) =>
         prevClients.map((client: ClientProps) =>
           client.id === item.id
             ? {
                 ...client,
-                ...response.data,
+                ...updatedClientWithId,
                 updatedAt: new Date().toLocaleString(),
               }
             : client
@@ -153,7 +158,7 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
   // função de deletar cliente
   const deleteClient = async (id: string): Promise<void> => {
     try {
-      await api.delete(`/clients/${id}`);
+      await deleteClientById(id);
       setClients((prevClients: ClientProps[]) =>
         prevClients.filter((client: ClientProps) => client.id !== id)
       );
