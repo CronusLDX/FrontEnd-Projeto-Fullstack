@@ -1,69 +1,54 @@
-# React + TypeScript + Vite
+# Projeto: Dashboard Empresarial de FGTS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🛠 Tecnologias Usadas
 
-Currently, two official plugins are available:
+### Back-end
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Node.js (com TypeScript)**
+- **Express.js**
+- **Nodemon**
+- **MongoDB**
+- **Mongoose**
 
-## Expanding the ESLint configuration
+### Front-end
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React com Vite**
+- **Axios**
+- **Hooks avançados do React**: `useContext` (para Context API) e `useRef`
+- **react-dom** e **react-router-dom** (para configuração de rotas)
+- **styled-components** (para estilização dos componentes)
+- **json-server** (para mock da API)
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Ferramentas Auxiliares
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- **Git** (para versionamento de código)
+- **GitHub** (como repositório)
+- **Insomnia** (para teste e verificação da API)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📄 Descrição
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Este projeto é um **dashboard empresarial** criado para registrar clientes que desejam ou já sacaram FGTS com a empresa.
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Essa demanda surgiu durante um estágio realizado em **novembro de 2024**, e aqui está a versão mais moderna até o momento.
+
+---
+
+## 🚀 Sugestões de melhoria e próximas implementações
+
+- Aplicar validação de dados usando **zod**
+- Usar **Docker** para conteinerizar o back-end
+- Implementar um banco de dados relacional para login e autenticação
+- Configurar **GitHub Actions** para CI/CD
+- Criar testes unitários e de integração (por exemplo, com **Jest** ou **Vitest**)
+- Documentar a API usando **Swagger**
+- Melhorar responsividade e acessibilidade
+- Aplicar boas práticas de arquitetura como **Clean Architecture** ou **DDD**
+- Adicionar logs estruturados com **Winston** ou **Pino**
+
+A próxima versão será feita em **Next.js**, visando se adequar melhor às demandas do mercado.
+
+---
+
+✨ **Esse é meu primeiro projeto fullstack web — virão muitos outros por aí!**
