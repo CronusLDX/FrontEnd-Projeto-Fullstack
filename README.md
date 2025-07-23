@@ -51,4 +51,4 @@ A próxima versão será feita em **Next.js**, visando se adequar melhor às dem
 
 ---
 
-✨ **Esse é meu primeiro projeto fullstack web — virão muitos outros por aí!**
+✨ **Esse é meu primeiro projeto fullstack web e virão muitos outros por aí!**
